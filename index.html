@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="main.js"></script>
+    <script src="alert.js"></script>
+  <title>Teruntuk Kamu</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    title {
+      animation: hhh 1s infinite alternate;
+    }
+
+    @keyframes hhh {
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body id="body">
+  <div class="content">
+    <div class="envelope-wrapper">
+      <div id="envelope" class="close">
+        <div class="front flap"></div>
+        <div class="front pocket"></div>
+        <div class="letter">
+          <p id="hai" class="kalimat1 kk"></p>
+          <p id="pesan" class="kalimat2 kk"></p>
+        </div>
+        <div class="hearts">
+          <div class="heart a1"></div>
+          <div class="heart a2"></div>
+          <div class="heart a3"></div>
+        </div>
+      </div>
+    </div>
+    <div class="reset">
+      <p id="open">Open</p>
+      <p id="reset">Close</p>
+    </div>
+  </div>
+  <div class="tulispesan">
+    <div class="envelope-wrapper">
+      <div id="envel">
+        <div class="front flap"></div>
+        <div class="front pocket"></div>
+        <div class="letter">
+          <p id="hai" class="kalimats1"></p>
+          <p id="pesan" class="kalimats2"></p>
+        </div>
+      </div>
+    </div>
+    <div class="input">
+      <input onkeyup="fungsiku()" id="inputKalimats1" type="text" required name="Kalimat1" placeholder="Kalimat 1" />
+      <input onkeyup="fungsiku()" id="inputKalimats2" type="text" required name="Kalimat2" placeholder="Kalimat 2" />
+    </div>
+    <div class="link">
+      <p>Link :</p>
+      <a id="links" href="" target="_blank"></a>
+      <button onclick="copyLink()">Salin Link</button>
+    </div>
+  </div>
+  </div>
+  <script>
+    $(window).on("load", function () {
+      body.style = "opacity: 1;";
+    });
+    $(document).ready(function () {
+      var envelope = $("#envelope");
+      var btn_open = $("#open");
+      var btn_reset = $("#reset");
+
+      envelope.click(function () {
+        open();
+        katik();
+        document.querySelector("#reset").style = "display: inline-block";
+        document.querySelector("#open").style = "display: none";
+      });
+      btn_open.click(function () {
+        open();
+        ketik();
+        document.querySelector("#reset").style = "display: inline-block";
+        document.querySelector("#open").style = "display: none";
+      });
+      btn_reset.click(function () {
+        close();
+        setTimeout(ilang, 1000);
+        document.querySelector("#reset").style = "display: none";
+        document.querySelector("#open").style = "display: inline-block";
+      });
+
+      function open() {
+        envelope.addClass("open").removeClass("close");
+      }
+      function close() {
+        envelope.addClass("close").removeClass("open");
+      }
+    });
+
+    var k1 = new URLSearchParams(window.location.search).get("k1");
+    document.querySelector(".kalimat1").innerHTML = k1;
+
+    var k2 = new URLSearchParams(window.location.search).get("k2");
+    document.querySelector(".kalimat2").innerHTML = k2;
+    // =========================
+    // untuk input
+    var linkKu;
+    const fungsiku = () => {
+      var inputKalimats1 = document.getElementById("inputKalimats1").value;
+      var inputKalimats2 = document.getElementById("inputKalimats2").value;
+
+      var kalimats1 = document.querySelector("kalimats1");
+      var kalimats2 = document.querySelector("kalimats2");
+
+      var myLink = "https://mau.ungkapin.my.id/surat/?k1=" + inputKalimats1 + "&k2=" + inputKalimats2;
+      myLink = encodeURI(myLink);
+
+      var links = document.getElementById("links");
+      linkKu = myLink;
+
+      links.href = myLink;
+      links.innerHTML = myLink;
+
+      document.querySelector(".kalimats1").innerHTML = inputKalimats1;
+      document.querySelector(".kalimats2").innerHTML = inputKalimats2;
+    };
+    fungsiku();
+
+    // akhr input
+    // ========= Salin ===============
+    const swalo = Swal.mixin({
+        customClass: {
+          popup: "customSweetalert",
+        },
+        allowOutsideClick: false,
+      });
+    // akhr input
+    // ========= Salin ===============
+    function copyLink() {
+      // navigator.clipboard.writeText(linkKu);
+      cp(linkKu);
+
+      swalo.fire({
+        title: "Link berhasil disalin!",
+        text: "Jangan lupa follow instagram @abay_sptrr",
+      });
+
+      // var tooltip = document.getElementById("myTooltip");
+      // tooltip.innerHTML = "Copied: " + copyText.value;
+    }
+
+    if (k1) {
+      if (k2) {
+        document.querySelector(".content").style = "display: flex";
+        document.querySelector(".tulispesan").style = "display: none";
+        popupku();
+      } else {
+        document.querySelector(".tulispesan").style = "display: flex";
+        document.querySelector(".content").style = "display: none";
+      }
+    } else {
+      document.querySelector(".tulispesan").style = "display: flex";
+      document.querySelector(".content").style = "display: none";
+    }
+
+    // CP ======================
+    function cp(jc) {
+      var el = document.createElement('textarea');
+      el.value = jc;
+      el.setAttribute('readonly', '');
+      el.style = {position: 'absolute', left: '-9999px'};
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+
+    // =================text ketik
+    var kalimat = document.querySelectorAll(".kk");
+    console.log(kalimat.length);
+
+    function ilang() {
+      for (var i = 0; i < kalimat.length; i++) {
+        kalimat[i].style = "opacity: 0;";
+      }
+    }
+    ilang();
+
+    var i = 0;
+    var txt;
+    var speed = 50;
+
+    function typeWriter(elemen, index) {
+      elemen[index].style = "opacity: 1;";
+      txt = elemen[index].innerHTML;
+      elemen[index].innerHTML = "";
+      function typeWriterKU() {
+        if (i < txt.length) {
+          elemen[index].innerHTML += txt.charAt(i);
+          i++;
+          setTimeout(typeWriterKU, 90);
+        } else {
+          if (index < kalimat.length - 1) {
+            i = 0;
+            index++;
+            typeWriter(elemen, index);
+          } else {
+            i = 0;
+          }
+        }
+      }
+      typeWriterKU();
+    }
+    function ketik() {
+      setTimeout(function () {
+        typeWriter(kalimat, 0);
+      }, 1000)
+    }
+  </script>
+</body>
+
+</html>
